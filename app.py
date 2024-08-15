@@ -117,4 +117,4 @@ def flag_game():
                                country_proper = country_proper,
                                capital_proper = capital)
 
-app.run()
+app.run(host='0.0.0.0', port=5000)
