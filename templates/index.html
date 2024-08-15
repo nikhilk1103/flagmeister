@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlagMeister</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
+        integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>FlagMeister</h1>
+
+        {% if country_correct is not none and capital_correct is not none %}
+        <img src="{{ flag_url }}" alt="Country Flag" style="max-width: 300px; max-height: 200px;">
+        <p class="{{ 'correct' if country_correct else 'incorrect' }}">Country: {{ 'Correct' if country_correct else 'Incorrect' }}! The correct country was {{ country_proper }}.</p>
+        <p class="{{ 'correct' if capital_correct else 'incorrect' }}">Capital: {{ 'Correct' if capital_correct else 'Incorrect' }}! The correct capital was {{ capital_proper }}.</p>
+        <form method="get" action="/">
+            <button type="submit">Next</button>
+        </form>
+        {% elif country_correct is not none %}
+        <img src="{{ flag_url }}" alt="Country Flag" style="max-width: 300px; max-height: 200px;">
+        {% if not country_correct %}
+        <p class="incorrect">Incorrect! The correct country was {{ country_proper }}.</p>
+        {% else %}
+        <p class="correct">Correct! The correct country was {{ country_proper }}.</p>
+        {% endif %}
+        <p>Now guess the capital:</p>
+        <form method="post">
+            <input type="hidden" name="actual_country" value="{{ actual_country }}">
+            <input type="hidden" name="actual_capital" value="{{ actual_capital }}">
+            <input type="hidden" name="flag_url" value="{{ flag_url }}">
+            <input type="hidden" name="usercountry" value="{{ user_country }}">
+            <input type="hidden" name="country_proper" value="{{ country_proper }}">
+            <input type="hidden" name="capital_proper" value="{{ capital_proper }}">
+            <label for="usercapital">Guess the capital:</label>
+            <input type="text" id="usercapital" name="usercapital" required>
+            <button type="submit">Submit</button>
+        </form>
+        {% else %}
+        <img src="{{ flag_url }}" alt="Country Flag" style="max-width: 300px; max-height: 200px;">
+        <form method="post">
+            <label for="usercountry">Guess the country:</label>
+            <input type="text" id="usercountry" name="usercountry" required>
+            <input type="hidden" name="actual_country" value="{{ actual_country }}">
+            <input type="hidden" name="actual_capital" value="{{ actual_capital }}">
+            <input type="hidden" name="flag_url" value="{{ flag_url }}">
+            <input type="hidden" name="country_proper" value="{{ country_proper }}">
+            <input type="hidden" name="capital_proper" value="{{ capital_proper }}">
+            <button type="submit">Submit</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <div class="credits">
+        <span>Created by Nikhil :)</span>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/nikhil-kumar-nk03/" target="_blank">
+                <img src="{{ url_for('static', filename='linkedin.webp') }}" alt="LinkedIn">
+                <span>LinkedIn</span>
+            </a>
+            <a href="https://github.com/nikhilk1103" target="_blank">
+                <img src="{{ url_for('static', filename='github.png') }}" alt="GitHub">
+                <span>GitHub</span>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
